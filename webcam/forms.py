@@ -38,4 +38,4 @@ class CameraField(forms.FileField):
             else:
                 filename = "{0}.{1}".format(uuid.uuid4(), self.format)
 
-        return super(CameraField, self).clean((filename, raw_val), initial)
+        return super(CameraField, self).clean((filename, raw_val.encode('ascii')), initial)

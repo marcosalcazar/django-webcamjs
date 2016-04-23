@@ -1,4 +1,5 @@
 {% load i18n static %}
+{% comment %}
 <input type="hidden" name="{{ name }}" id="{{ attrs.id }}" value="{{ picture.name }}"/>
 <input type="hidden" name="data_{{ name }}" id="data_{{ attrs.id }}" value="{{ picture.stream}}"/>
 <img class="camera-preview" id="{{ attrs.id }}-image" width="{{ width }}" height="{{ height }}"/>
@@ -19,3 +20,21 @@
        onclick="window.cameramonitor.show_monitor('{{ format }}', $('#data_{{ attrs.id }}'), $('#{{ attrs.id }}-image'))"/>
 <input type="button" class="btn" value='{% trans 'Clear' %}'
        onclick="window.cameramonitor.clear($('#data_{{attrs.id}}'), $('#{{ attrs.id }}-image'))"/>
+{% endcomment %}
+
+<script src="{% static 'webcam/webcam.min.js' %}"></script>
+<div id="my_camera" style="width:320px; height:240px;"></div>
+<input type="hidden" name="{{ name }}" id="{{ attrs.id }}" value="{{ picture.name }}"/>
+<input type="hidden" name="data_{{ name }}" id="data_{{ attrs.id }}" value="{{ picture.stream}}"/>
+<div id="my_result"></div>
+<script language="JavaScript">
+    Webcam.attach( '#my_camera' );
+
+    function take_snapshot() {
+        Webcam.snap( function(data_uri) {
+            $('#my_result').html('<img src="'+data_uri+'"/>');
+            $('#data_{{ attrs.id }}').val(data_uri);
+        } );
+    }
+</script>
+<a href="javascript:void(take_snapshot())">Take Snapshot</a>
